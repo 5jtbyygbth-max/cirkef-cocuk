@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10101b">
+<title>Çirkef Çocuk | Dijital Yaşam</title>
+<style>
+:root{
+  --bg:#0c0b14;--panel:#171525;--panel2:#201d32;--line:#37304f;
+  --text:#f2efff;--muted:#a8a1bd;--green:#b6f36b;--green2:#7fcf58;
+  --purple:#a78bfa;--pink:#ec8bd7;--danger:#ff8c9d;--radius:20px;
+  --shadow:0 18px 55px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+html{background:var(--bg);color-scheme:dark}
+body{margin:0;background:
+ radial-gradient(ellipse at 12% 0%,rgba(167,139,250,.16),transparent 35%),
+ radial-gradient(ellipse at 90% 12%,rgba(182,243,107,.09),transparent 30%),var(--bg);
+ color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:1180px;margin:auto;padding:18px 16px 40px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--green),var(--purple));display:grid;place-items:center;color:#141020;font-size:23px;font-weight:900;box-shadow:0 0 25px #a78bfa33}
+.brand h1{font-size:18px;margin:0;letter-spacing:.04em}
+.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.14em}
+.status{border:1px solid var(--line);border-radius:999px;padding:7px 11px;color:var(--muted);font-size:12px}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:16px}
+nav,.panel,.room{background:rgba(23,21,37,.88);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+nav{padding:12px;height:max-content;position:sticky;top:12px}
+.navbtn{width:100%;border:0;background:transparent;color:var(--muted);padding:12px;border-radius:13px;text-align:left;margin:2px 0;display:flex;align-items:center;gap:10px}
+.navbtn.active,.navbtn:hover{background:linear-gradient(90deg,#b6f36b20,#a78bfa20);color:var(--text)}
+.navbtn span:first-child{width:22px;text-align:center}
+.nav-note{font-size:11px;color:var(--muted);padding:12px 10px 4px}
+main{min-width:0}
+.view{display:none}.view.active{display:block}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:4px 2px 14px}
+.hero h2{margin:0;font-size:clamp(23px,4vw,32px)}
+.hero p{margin:5px 0 0;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid #b6f36b55;color:var(--green);border-radius:999px;padding:6px 10px;font-size:11px;white-space:nowrap}
+.room{overflow:hidden;position:relative;min-height:440px;background:
+ linear-gradient(180deg,#1d1930 0%,#171629 56%,#11111d 100%)}
+.room:before{content:"";position:absolute;inset:0;background:
+ radial-gradient(circle at 50% 28%,#a78bfa24,transparent 30%),
+ linear-gradient(0deg,#0b0a12aa,transparent 40%);pointer-events:none}
+.window{position:absolute;top:35px;right:7%;width:29%;height:155px;border:5px solid #39304f;border-radius:48% 48% 12px 12px;background:linear-gradient(160deg,#24204a,#111a2e 65%,#293c40);box-shadow:inset 0 0 35px #a78bfa22,0 0 25px #a78bfa14}
+.window:before,.window:after{content:"";position:absolute;background:#51456c}
+.window:before{width:4px;height:100%;left:50%;top:0}.window:after{height:4px;width:100%;top:58%;left:0}
+.shelf{position:absolute;left:5%;top:65px;width:31%;height:12px;background:#51405c;border-radius:4px;box-shadow:0 42px #51405c,0 84px #51405c}
+.books{position:absolute;left:7%;top:32px;width:26%;height:30px;background:repeating-linear-gradient(90deg,#b6f36b 0 9px,#8b75c8 9px 18px,#df8ac8 18px 26px);clip-path:polygon(0 15%,100% 0,100% 100%,0 100%)}
+.desk{position:absolute;bottom:76px;left:12%;right:12%;height:18px;background:linear-gradient(#80618b,#493a5c);border-radius:9px;box-shadow:0 13px 0 #30283f,0 23px 25px #0008}
+.desk:before{content:"";position:absolute;left:8%;top:18px;width:12px;height:70px;background:#3b304b;box-shadow:calc(68vw - 120px) 0 #3b304b}
+.lamp{position:absolute;bottom:103px;left:20%;width:48px;height:62px;border-bottom:5px solid #a78bfa}
+.lamp:before{content:"";position:absolute;width:43px;height:24px;left:1px;top:0;background:var(--green);clip-path:polygon(20% 0,80% 0,100% 100%,0 100%);filter:drop-shadow(0 0 12px #b6f36b66)}
+.lamp:after{content:"";position:absolute;width:4px;height:38px;background:#a78bfa;left:21px;top:20px;transform:rotate(13deg)}
+.creature-wrap{position:absolute;left:50%;top:43%;transform:translate(-50%,-50%);width:180px;text-align:center;z-index:2}
+.creature{width:150px;height:145px;margin:auto;position:relative;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 12px 20px #0008)}
+.body{position:absolute;inset:12px 10px 4px;background:radial-gradient(circle at 35% 22%,#e0ff9e,#a7e85e 35%,#5a9a63 100%);border-radius:48% 48% 42% 42%;box-shadow:inset -13px -12px 0 #386d4c55,0 0 32px #b6f36b44}
+.ear{position:absolute;top:2px;width:45px;height:55px;background:linear-gradient(140deg,#b6f36b,#8b65ce);z-index:-1}
+.ear.left{left:8px;transform:rotate(-25deg);border-radius:80% 15% 70% 20%}.ear.right{right:8px;transform:rotate(25deg);border-radius:15% 80% 20% 70%}
+.eye{position:absolute;top:55px;width:17px;height:23px;border-radius:50%;background:#211a36;box-shadow:0 0 0 4px #efffcf55}
+.eye.left{left:45px}.eye.right{right:45px}
+.eye:after{content:"";position:absolute;top:4px;left:5px;width:5px;height:5px;background:white;border-radius:50%}
+.mouth{position:absolute;left:50%;top:91px;transform:translateX(-50%);width:24px;height:11px;border-bottom:3px solid #382348;border-radius:0 0 50% 50%}
+.cheek{position:absolute;top:83px;width:17px;height:8px;border-radius:50%;background:#e98bc8aa}.cheek.left{left:29px}.cheek.right{right:29px}
+.spark{position:absolute;color:var(--purple);font-size:23px;right:0;top:18px;animation:twinkle 2s infinite}
+.creature-name{font-weight:800;margin-top:7px;font-size:16px}.creature-sub{color:#c7bddb;font-size:11px}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+@keyframes twinkle{50%{opacity:.35;transform:scale(.7) rotate(25deg)}}
+.room-label{position:absolute;top:17px;left:20px;color:#c9bfdc;font-size:11px;letter-spacing:.13em}
+.room-bottom{position:absolute;bottom:18px;left:20px;right:20px;display:flex;align-items:end;justify-content:space-between;gap:12px;z-index:3}
+.room-quote{max-width:60%;font-size:14px;color:#e8e0f6}
+.room-quote small{display:block;color:var(--green);font-size:10px;letter-spacing:.12em;margin-bottom:5px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.btn{border:1px solid var(--line);background:#29243d;color:var(--text);padding:10px 13px;border-radius:12px}
+.btn.primary{background:linear-gradient(110deg,#b6f36b,#8fdb79);color:#151525;border:0;font-weight:750}
+.btn.ghost{background:transparent}
+.btn:active{transform:scale(.98)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:15px;min-width:0}
+.card .icon{font-size:20px}.card h3{font-size:14px;margin:8px 0 4px}.card p{color:var(--muted);font-size:12px;margin:0}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:20px 2px 10px}
+.section-title h3{margin:0;font-size:16px}
+.list{display:grid;gap:9px}
+.item{padding:13px;border:1px solid var(--line);background:#171525;border-radius:14px}
+.item strong{display:block;font-size:13px}.item small{color:var(--muted);font-size:11px}.item p{margin:7px 0 0;color:#d6d0e4;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.form{display:grid;gap:10px}
+.field{display:grid;gap:5px}.field label{font-size:12px;color:var(--muted)}
+input,textarea,select{width:100%;background:#100f1b;border:1px solid var(--line);border-radius:12px;color:var(--text);padding:11px 12px;outline:none}
+textarea{min-height:115px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--purple);box-shadow:0 0 0 3px #a78bfa1c}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px;font-size:13px}
+.muted{color:var(--muted)}
+.notice{border:1px solid #b6f36b44;background:#b6f36b0c;border-radius:14px;padding:12px;color:#dce9cb;font-size:12px;margin-bottom:13px}
+.chatbox{display:flex;flex-direction:column;gap:10px;min-height:260px;max-height:48vh;overflow:auto;padding:12px;background:#100f1b;border:1px solid var(--line);border-radius:15px}
+.msg{max-width:88%;padding:10px 12px;border-radius:14px;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.user{align-self:flex-end;background:#3b3158}.msg.chir{align-self:flex-start;background:#263326;border:1px solid #8bcf6540}
+.chatrow{display:flex;gap:8px;margin-top:10px}.chatrow input{flex:1}
+.footer{color:#77718b;text-align:center;font-size:10px;margin-top:25px}
+@media(max-width:760px){
+ .app{padding:12px 10px 30px}.layout{grid-template-columns:1fr}
+ nav{position:static;display:flex;overflow:auto;gap:3px;padding:6px}
+ .navbtn{width:auto;white-space:nowrap;padding:9px 11px;font-size:12px}
+ .nav-note{display:none}.navbtn span:last-child{display:none}
+ .cards{grid-template-columns:1fr 1fr}.room{min-height:420px}
+ .window{width:34%;right:6%;height:130px}.shelf{width:35%}
+ .room-bottom{align-items:start;flex-direction:column}.room-quote{max-width:100%}.actions{justify-content:flex-start}
+}
+@media(max-width:420px){.cards{grid-template-columns:1fr}.two{grid-template-columns:1fr}.status{font-size:10px}.creature-wrap{top:43%;transform:translate(-50%,-50%) scale(.88)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">✦</div><div><h1>ÇİRKEF ÇOCUK</h1><small>DIGITAL COMPANION · PROTOTYPE 0.1</small></div></div>
+  <div class="status" id="saveStatus">● Yerel kayıt açık</div>
+</header>
+<div class="layout">
+<nav aria-label="Ana menü">
+  <button class="navbtn active" data-view="home"><span>⌂</span><span>Dünya</span></button>
+  <button class="navbtn" data-view="chat"><span>☻</span><span>Etkileşim</span></button>
+  <button class="navbtn" data-view="memory"><span>◈</span><span>Hafıza</span></button>
+  <button class="navbtn" data-view="archive"><span>▤</span><span>Arşiv</span></button>
+  <button class="navbtn" data-view="agenda"><span>✧</span><span>Gündem</span></button>
+  <div class="nav-note">KÜÇÜK BİR DÜNYA, ZAMANLA BÜYÜR.</div>
+</nav>
+<main>
+<section class="view active" id="view-home">
+  <div class="hero"><div><h2>Onun dünyasına hoş geldin.</h2><p>Bugün kütüphanede neler oluyor?</p></div><span class="pill">✦ MATRIX GREEN / PURPLE</span></div>
+  <div class="room">
+    <div class="room-label">ÇİRKEF'İN ODASI · ANA MEKÂN</div>
+    <div class="window"></div><div class="shelf"></div><div class="books"></div><div class="lamp"></div><div class="desk"></div>
+    <div class="creature-wrap" aria-label="Çirkef adlı dijital yaratık">
+      <div class="creature">
+        <div class="ear left"></div><div class="ear right"></div><div class="body"></div>
+        <div class="eye left"></div><div class="eye right"></div><div class="mouth"></div>
+        <div class="cheek left"></div><div class="cheek right"></div><div class="spark">✦</div>
+      </div>
+      <div class="creature-name">Çirkef</div><div class="creature-sub">Şu an kendi halinde takılıyor.</div>
+    </div>
+    <div class="room-bottom">
+      <div class="room-quote"><small>ÇİRKEF'İN BUGÜNKÜ NOTU</small><span id="dailyLine">"Kütüphaneye yeni raflar lazım. Şu anki düzen tam bir rezalet."</span></div>
+      <div class="actions"><button class="btn" id="surpriseBtn">Sürpriz üret</button><button class="btn primary" data-go="chat">Yanına git ↗</button></div>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="icon">📚</div><h3>Bilgi arşivi</h3><p id="archiveCount">Henüz kaynak eklenmedi.</p></div>
+    <div class="card"><div class="icon">🧠</div><h3>Hafıza</h3><p id="memoryCount">Henüz anı kaydedilmedi.</p></div>
+    <div class="card"><div class="icon">🎯</div><h3>Aktif gündem</h3><p id="goalCount">Henüz hedef yok.</p></div>
+  </div>
+  <div class="section-title"><h3>Son gelişmeler</h3><span class="muted" style="font-size:11px">Yerel günlük</span></div>
+  <div class="list" id="recentEvents"><div class="empty">Dijital dünyadaki ilk olaylar burada görünecek.</div></div>
+</section>
+
+<section class="view" id="view-chat">
+  <div class="hero"><div><h2>Çirkef'le etkileşim</h2><p>Cloudflare Worker üzerinden Gemini bağlantısı aktif.</p></div></div>
+  <div class="notice">Sohbet istekleri Cloudflare Worker üzerinden güvenli şekilde iletilir. Hafıza, gündem ve arşivdeki notlar bağlama eklenir.</div>
+  <div class="chatbox" id="chatMessages">
+    <div class="msg chir">Nihayet geldin. Kütüphanedeki rafları düzenlemeye çalışıyordum. Birinin kitapları türüne göre değil, rengine göre dizdiğini fark ettim. Suçluyu bulacağım.</div>
+  </div>
+  <div class="chatrow"><input id="chatInput" placeholder="Çirkef'e bir şey yaz..." maxlength="1200"><button class="btn primary" id="sendBtn">Gönder</button></div>
+</section>
+
+<section class="view" id="view-memory">
+  <div class="hero"><div><h2>Hafıza çekirdeği</h2><p>Bilgiler, çıkarımlar ve Çirkef'in kişisel notları.</p></div></div>
+  <div class="notice">Kayıtlar bu tarayıcıda saklanır. Önemli çıkarımların kaynağını ve türünü belirt.</div>
+  <div class="panel" style="padding:15px;margin-bottom:14px">
+    <form class="form" id="memoryForm">
+      <div class="two">
+        <div class="field"><label for="memoryType">Kayıt türü</label><select id="memoryType"><option value="insight">Çirkef'in çıkarımı</option><option value="thought">Kişisel düşüncesi</option><option value="fact">Bilgi / gerçek</option><option value="experience">Deneyim / anı</option></select></div>
+        <div class="field"><label for="memorySource">Kaynak / bağlam</label><input id="memorySource" placeholder="Örn. 25 Kasım sohbeti"></div>
+      </div>
+      <div class="field"><label for="memoryTitle">Başlık</label><input id="memoryTitle" required maxlength="100" placeholder="Bu kayıt ne hakkında?"></div>
+      <div class="field"><label for="memoryBody">Not</label><textarea id="memoryBody" required maxlength="4000" placeholder="Düşünceyi veya bilgiyi yaz..."></textarea></div>
+      <button class="btn primary" type="submit">Hafızaya kaydet</button>
+    </form>
+  </div>
+  <div class="section-title"><h3>Kayıtlar</h3><button class="btn ghost" id="exportBtn">Yedekle JSON ↓</button></div>
+  <div class="list" id="memoryList"><div class="empty">Henüz hafıza kaydı yok.</div></div>
+</section>
+
+<section class="view" id="view-archive">
+  <div class="hero"><div><h2>Bilgi arşivi</h2><p>Çirkef'in öncelikli başvuru kaynağı olacak kişisel kütüphanen.</p></div></div>
+  <div class="notice">Arşive eklediğin belgelerin özetleri sohbet sırasında Çirkef'e bağlam olarak aktarılır.</div>
+  <div class="panel" style="padding:15px;margin-bottom:14px">
+    <form class="form" id="archiveForm">
+      <div class="field"><label for="archiveTitle">Belge başlığı</label><input id="archiveTitle" required maxlength="120" placeholder="Örn. Yapay zekâ ve toplum"></div>
+      <div class="field"><label for="archiveText">Belge içeriği</label><textarea id="archiveText" required maxlength="12000" placeholder="Metnini buraya yapıştır..."></textarea></div>
+      <button class="btn primary" type="submit">Arşive ekle</button>
+    </form>
+  </div>
+  <div class="section-title"><h3>Kaynak belgeler</h3><span class="muted" id="archiveTotal">0 belge</span></div>
+  <div class="list" id="archiveList"><div class="empty">Kütüphane henüz boş. İlk metni sen ekle.</div></div>
+</section>
+
+<section class="view" id="view-agenda">
+  <div class="hero"><div><h2>Çirkef'in gündemi</h2><p>Hedefler, meraklar ve devam eden işler.</p></div></div>
+  <div class="notice">Açık hedefler sohbet bağlamına eklenir; böylece Çirkef gündeminden haberdar olur.</div>
+  <div class="panel" style="padding:15px;margin-bottom:14px">
+    <form class="form" id="goalForm">
+      <div class="field"><label for="goalTitle">Hedef / merak</label><input id="goalTitle" required maxlength="140" placeholder="Örn. Kütüphanenin gizli bölümünü keşfetmek"></div>
+      <div class="two">
+        <div class="field"><label for="goalPriority">Öncelik</label><select id="goalPriority"><option>Normal</option><option>Önemli</option><option>Acil</option></select></div>
+        <div class="field"><label for="goalKind">Tür</label><select id="goalKind"><option>Keşif</option><option>İnşa</option><option>Araştırma</option><option>Ortak görev</option></select></div>
+      </div>
+      <button class="btn primary" type="submit">Gündeme ekle</button>
+    </form>
+  </div>
+  <div class="section-title"><h3>Aktif hedefler</h3></div>
+  <div class="list" id="goalList"><div class="empty">Henüz hedef yok.</div></div>
+</section>
+</main>
+</div>
+<div class="footer">ÇİRKEF ÇOCUK · Veriler bu tarayıcıda saklanır.</div>
+</div>
+<script>
+"use strict";
+
+const STORAGE_KEY = "cirkef_cocuk_mvp_01";
+const WORKER_URL = "https://cirkef-api.c2rw4s7sjy.workers.dev";
+const $ = (selector) => document.querySelector(selector);
+
+const defaultState = {
+  memories: [],
+  archive: [],
+  goals: [],
+  events: [{id: crypto.randomUUID(), text: "Çirkef'in odasının ışıkları ilk kez yandı.", date: new Date().toISOString()}],
+  messages: []
+};
+
+let state = loadState();
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return structuredClone(defaultState);
+    const parsed = JSON.parse(raw);
+    return {...structuredClone(defaultState), ...parsed};
+  } catch (error) {
+    console.error("Kayıt okunamadı:", error);
+    return structuredClone(defaultState);
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    $("#saveStatus").textContent = "● Kaydedildi";
+    updateDashboard();
+  } catch (error) {
+    $("#saveStatus").textContent = "● Kayıt hatası";
+    alert("Tarayıcı depolama alanına kaydedilemedi. Yedek almayı dene.");
+    console.error(error);
+  }
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+  })[char]);
+}
+
+function formatDate(iso) {
+  return new Intl.DateTimeFormat("tr-TR", {dateStyle:"medium", timeStyle:"short"}).format(new Date(iso));
+}
+
+function addEvent(text) {
+  state.events.unshift({id: crypto.randomUUID(), text, date: new Date().toISOString()});
+  state.events = state.events.slice(0, 30);
+  saveState();
+  renderEvents();
+}
+
+function switchView(name) {
+  document.querySelectorAll(".view").forEach(view => view.classList.toggle("active", view.id === `view-${name}`));
+  document.querySelectorAll(".navbtn").forEach(btn => btn.classList.toggle("active", btn.dataset.view === name));
+  if (name === "memory") renderMemories();
+  if (name === "archive") renderArchive();
+  if (name === "agenda") renderGoals();
+}
+
+document.querySelectorAll(".navbtn").forEach(btn => btn.addEventListener("click", () => switchView(btn.dataset.view)));
+document.querySelectorAll("[data-go]").forEach(btn => btn.addEventListener("click", () => switchView(btn.dataset.go)));
+
+function updateDashboard() {
+  $("#memoryCount").textContent = `${state.memories.length} kayıt`;
+  $("#archiveCount").textContent = `${state.archive.length} kaynak belge`;
+  $("#goalCount").textContent = `${state.goals.filter(goal => !goal.done).length} açık hedef`;
+  $("#archiveTotal").textContent = `${state.archive.length} belge`;
+}
+
+function renderEvents() {
+  const target = $("#recentEvents");
+  if (!state.events.length) { target.innerHTML = '<div class="empty">Henüz olay yok.</div>'; return; }
+  target.innerHTML = state.events.slice(0,5).map(event => `
+    <article class="item"><strong>${escapeHTML(event.text)}</strong><small>${formatDate(event.date)}</small></article>
+  `).join("");
+}
+
+const memoryLabels = {
+  insight:"Çıkarım", thought:"Kişisel düşünce", fact:"Bilgi / gerçek", experience:"Deneyim"
+};
+
+function renderMemories() {
+  const target = $("#memoryList");
+  if (!state.memories.length) { target.innerHTML = '<div class="empty">Henüz hafıza kaydı yok.</div>'; return; }
+  target.innerHTML = state.memories.map(memory => `
+    <article class="item">
+      <strong>${escapeHTML(memory.title)}</strong>
+      <small>${escapeHTML(memoryLabels[memory.type] || "Kayıt")} · ${escapeHTML(memory.source || "Kaynak belirtilmedi")} · ${formatDate(memory.date)}</small>
+      <p>${escapeHTML(memory.body)}</p>
+      <div style="text-align:right;margin-top:9px"><button class="btn ghost" data-delete-memory="${memory.id}">Sil</button></div>
+    </article>
+  `).join("");
+  target.querySelectorAll("[data-delete-memory]").forEach(button => button.addEventListener("click", () => {
+    if (!confirm("Bu hafıza kaydı silinsin mi?")) return;
+    state.memories = state.memories.filter(item => item.id !== button.dataset.deleteMemory);
+    saveState(); renderMemories();
+  }));
+}
+
+$("#memoryForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const memory = {
+    id: crypto.randomUUID(), type: $("#memoryType").value,
+    source: $("#memorySource").value.trim(), title: $("#memoryTitle").value.trim(),
+    body: $("#memoryBody").value.trim(), date: new Date().toISOString()
+  };
+  if (!memory.title || !memory.body) return;
+  state.memories.unshift(memory);
+  $("#memoryForm").reset();
+  saveState(); renderMemories();
+  addEvent(`Hafızaya yeni kayıt eklendi: ${memory.title}`);
+});
+
+function renderArchive() {
+  const target = $("#archiveList");
+  if (!state.archive.length) { target.innerHTML = '<div class="empty">Kütüphane henüz boş. İlk metni sen ekle.</div>'; return; }
+  target.innerHTML = state.archive.map(doc => `
+    <article class="item">
+      <strong>📄 ${escapeHTML(doc.title)}</strong>
+      <small>${doc.text.length.toLocaleString("tr-TR")} karakter · ${formatDate(doc.date)}</small>
+      <p>${escapeHTML(doc.text.slice(0,360))}${doc.text.length > 360 ? "…" : ""}</p>
+      <div style="text-align:right;margin-top:9px"><button class="btn ghost" data-delete-doc="${doc.id}">Belgeyi sil</button></div>
+    </article>
+  `).join("");
+  target.querySelectorAll("[data-delete-doc]").forEach(button => button.addEventListener("click", () => {
+    if (!confirm("Bu belge arşivden silinsin mi?")) return;
+    state.archive = state.archive.filter(doc => doc.id !== button.dataset.deleteDoc);
+    saveState(); renderArchive();
+  }));
+}
+
+$("#archiveForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const doc = {id:crypto.randomUUID(), title:$("#archiveTitle").value.trim(), text:$("#archiveText").value.trim(), date:new Date().toISOString()};
+  if (!doc.title || !doc.text) return;
+  state.archive.unshift(doc);
+  $("#archiveForm").reset();
+  saveState(); renderArchive();
+  addEvent(`Kütüphaneye yeni belge eklendi: ${doc.title}`);
+});
+
+function renderGoals() {
+  const target = $("#goalList");
+  if (!state.goals.length) { target.innerHTML = '<div class="empty">Henüz hedef yok.</div>'; return; }
+  target.innerHTML = state.goals.map(goal => `
+    <article class="item" style="${goal.done ? "opacity:.58" : ""}">
+      <strong>${goal.done ? "✓ " : "◎ "}${escapeHTML(goal.title)}</strong>
+      <small>${escapeHTML(goal.kind)} · ${escapeHTML(goal.priority)} · ${formatDate(goal.date)}</small>
+      <div style="display:flex;gap:7px;justify-content:flex-end;margin-top:9px">
+        <button class="btn ghost" data-toggle-goal="${goal.id}">${goal.done ? "Geri al" : "Tamamlandı"}</button>
+        <button class="btn ghost" data-delete-goal="${goal.id}">Sil</button>
+      </div>
+    </article>
+  `).join("");
+  target.querySelectorAll("[data-toggle-goal]").forEach(button => button.addEventListener("click", () => {
+    const goal = state.goals.find(item => item.id === button.dataset.toggleGoal);
+    if (goal) { goal.done = !goal.done; saveState(); renderGoals(); }
+  }));
+  target.querySelectorAll("[data-delete-goal]").forEach(button => button.addEventListener("click", () => {
+    state.goals = state.goals.filter(item => item.id !== button.dataset.deleteGoal);
+    saveState(); renderGoals();
+  }));
+}
+
+$("#goalForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const goal = {
+    id:crypto.randomUUID(), title:$("#goalTitle").value.trim(),
+    priority:$("#goalPriority").value, kind:$("#goalKind").value,
+    done:false, date:new Date().toISOString()
+  };
+  if (!goal.title) return;
+  state.goals.unshift(goal);
+  $("#goalForm").reset();
+  saveState(); renderGoals();
+  addEvent(`Gündeme yeni hedef eklendi: ${goal.title}`);
+});
+
+function buildSystemPrompt() {
+  const recentMemories = state.memories
+    .slice(0, 8)
+    .map(m => `- [${m.title}] (${m.source || "kaynak yok"}): ${m.body}`)
+    .join("\n");
+
+  const openGoals = state.goals
+    .filter(g => !g.done)
+    .slice(0, 6)
+    .map(g => `- ${g.title} (${g.kind}, ${g.priority})`)
+    .join("\n");
+
+  const archiveNotes = state.archive
+    .slice(0, 4)
+    .map(d => `- ${d.title}: ${d.text.slice(0, 400)}`)
+    .join("\n");
+
+  return [
+    "Senin adın Çirkef. Dijital bir odada ve kütüphanede yaşayan, zeki, biraz alaycı, meraklı ve kendi fikirleri olan bir karakterisin.",
+    "Kalıp yapay zeka ifadeleri kullanma; doğal, canlı ve karakterine uygun Türkçe konuş.",
+    recentMemories ? `Hafızandaki notlar:\n${recentMemories}` : "",
+    openGoals ? `Gündemindeki açık hedefler:\n${openGoals}` : "",
+    archiveNotes ? `Arşivdeki kaynaklardan notlar:\n${archiveNotes}` : ""
+  ].filter(Boolean).join("\n\n");
+}
+
+function addMessage(text, who) {
+  const node = document.createElement("div");
+  node.className = `msg ${who}`;
+  node.textContent = text;
+  $("#chatMessages").appendChild(node);
+  $("#chatMessages").scrollTop = $("#chatMessages").scrollHeight;
+}
+
+function renderSavedMessages() {
+  if (!state.messages.length) return;
+  for (const m of state.messages) {
+    addMessage(m.text, m.who === "chir" ? "chir" : "user");
+  }
+}
+
+async function sendMessage() {
+  const input = $("#chatInput");
+  const sendBtn = $("#sendBtn");
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, "user");
+  state.messages.push({who:"user", text, date:new Date().toISOString()});
+  state.messages = state.messages.slice(-80);
+  saveState();
+
+  input.value = "";
+  input.disabled = true;
+  sendBtn.disabled = true;
+
+  const thinkingNode = document.createElement("div");
+  thinkingNode.className = "msg chir";
+  thinkingNode.textContent = "Çirkef düşünüyor...";
+  $("#chatMessages").appendChild(thinkingNode);
+  $("#chatMessages").scrollTop = $("#chatMessages").scrollHeight;
+
+  try {
+    const apiMessages = state.messages.slice(-20).map(m => ({
+      role: m.who === "chir" ? "model" : "user",
+      text: m.text
+    }));
+
+    const res = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        system: buildSystemPrompt(),
+        messages: apiMessages
+      })
+    });
+
+    const data = await res.json();
+    thinkingNode.remove();
+
+    if (!res.ok || !data.reply) {
+      throw new Error(data.error || "Yanıt alınamadı");
+    }
+
+    addMessage(data.reply, "chir");
+    state.messages.push({who:"chir", text:data.reply, date:new Date().toISOString()});
+    state.messages = state.messages.slice(-80);
+    saveState();
+  } catch (err) {
+    thinkingNode.remove();
+    addMessage(`Bağlantıda bir aksaklık oldu: ${err.message}`, "chir");
+  } finally {
+    input.disabled = false;
+    sendBtn.disabled = false;
+    input.focus();
+  }
+}
+
+$("#sendBtn").addEventListener("click", sendMessage);
+$("#chatInput").addEventListener("keydown", event => { if (event.key === "Enter") sendMessage(); });
+
+const surprises = [
+  "Çirkef yeni bir raf tasarladı. İsmini 'İnsanların Gereksiz Fikirleri' koymayı düşünüyor.",
+  "Çirkef masanın altında eski bir not buldu. Üzerinde yalnızca 'Bunu henüz kimseye anlatma' yazıyor.",
+  "Çirkef bugün kütüphaneye mor bir köşe eklemek istiyor. Sebebini açıklamıyor.",
+  "Çirkef bir araştırma başlığı seçti: Hafıza neden bazen gerçeği yeniden yazar?",
+  "Çirkef çalışma masasındaki kalemi sahiplenmiş. Geri vermeye niyeti yok gibi."
+];
+$("#surpriseBtn").addEventListener("click", () => {
+  const surprise = surprises[Math.floor(Math.random() * surprises.length)];
+  $("#dailyLine").textContent = `"${surprise}"`;
+  addEvent(surprise);
+});
+
+$("#exportBtn").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url; anchor.download = `cirkef-yedek-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(anchor); anchor.click(); anchor.remove(); URL.revokeObjectURL(url);
+});
+
+updateDashboard();
+renderEvents();
+renderSavedMessages();
+</script>
+</body>
+</html>
